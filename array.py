@@ -29,7 +29,7 @@ print('\n')
 
 print("Insert item in the array \n")
 
-# the magic of python :v is weird but I now that you got it ;).
+# the magic of python :v is weird but is ok ;)
 arr.insert(0, 'new item')
 print(arr)
 print('\n')
