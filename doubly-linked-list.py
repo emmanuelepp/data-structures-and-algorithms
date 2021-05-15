@@ -1,23 +1,26 @@
-# Notes singly linked list:
-# A linked list is a linear data structure, in which the elements are not stored at contiguous memory locations.
-# The elements in a linked list are linked using pointers
-# A linked list consists of nodes where each node contains a data field and a reference to the next node in the list.
-
+# Doubly linked list:
+# A Doubly Linked List contains an extra pointer, typically called previous pointer,
+# together with next pointer and data which are there in singly linked list.
 
 # Head
 # |
 # |
 # v
-##### #####       ##### #####       ##### #####
-# A # #   # ----> # B # #   # ----> # C # #   #  ----> NULL
-##### #####       ##### #####       ##### #####
+##### ##### #####         ##### ##### #####        ##### ##### #####
+#   # # A # #   #  -----> #   # # B # #   # -----> #   # # C # #   # -----> NULL
+#   # #   # #   #  <----- #   # #   # #   # <----- #   # #   # #   #
+##### ##### #####         ##### ##### #####        ##### ##### #####
+# ^
+# |
+# |
+# Null
 
-
-class SLLNode:
+class DLLNode:
 
     def __init__(self, data):
         self.data = data
         self.next = None
+        self.previous = None
 
     def __repr__(self):
         return "Object: data={}".format(self.data)
@@ -42,31 +45,29 @@ class SLLNode:
 
         self.next = new_next
 
+    def get_previous(self):
+        """Return the atribute"""
 
-class SLL:
+        return self.previous
+
+    def set_previous(self, new_previous):
+        """Replace the existing value on previous with the value of new_previous"""
+
+        self.previous = new_previous
+
+
+class DLL:
 
     def __init__(self):
+
         self.head = None
 
     def __repr__(self):
-        return "Object: head={}".format(self.head)
+        return 'Object: head={}'.format(self.head)
 
     def is_empty(self):
 
-        #True if self.head == None else False
-
-        if self.head == None:
-
-            return True
-        else:
-            return False
-
-    def add_front(self, new_data):
-        """Add a node whose data is the new_data to the front of the linked list"""
-
-        temp_node = SLLNode(new_data)
-        temp_node.set_next(self.head)
-        self.head = temp_node
+        return self.head is None
 
     def size(self):
         """Traverses the linked list and return the number of nodez in the linked list
@@ -103,6 +104,17 @@ class SLL:
 
         return False
 
+    def add_front(self, new_data):
+        """Add a node whose data is the new_data to the front of the linked list"""
+
+        temp_node = DLLNode(new_data)
+        temp_node.set_next(self.head)
+
+        if self.head is not None:
+            self.head.set_previous(temp_node)
+
+        self.head = temp_node
+
     def remove(self, data):
         """Removes the firts occurence of a node that constains the data argument
         as its data variable. Return nothing.
@@ -110,25 +122,24 @@ class SLL:
         Time complexity: O(N)
         """
 
-        if self.head == None:
+        if self.head is None:
             return 'Linked list is empty'
 
         current = self.head
-        previous = None
         found = False
 
         while not found:
             if current.get_data() == data:
                 found = True
+
             else:
-                if current.get_next() == None:
-                    return 'A node with data value is not present'
+                if current.get_next() is None:
+                    return 'No nodes with this value'
                 else:
-                    previous = current
                     current = current.get_next()
-
-        if previous is None:
+        if current.previous is None:
             self.head = current.get_next()
-
         else:
-            previous.set_data(current.get_next())
+            current.previous.set_next(current.get_next())
+
+            current.next.set_previous(current.get_previous())
