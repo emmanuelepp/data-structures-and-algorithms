@@ -122,7 +122,7 @@ class SLL:
                 found = True
             else:
                 if current.get_next() == None:
-                    return 'A node with data value is not present'
+                    return 'A node with data value is not present '
                 else:
                     previous = current
                     current = current.get_next()
