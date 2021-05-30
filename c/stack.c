@@ -20,55 +20,45 @@
 #####
 */
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#define STACKSIZE 6000
-#define SIZE 256
+#define STACKSIZE 200
 
-//char item[SIZE];
+int top = -1;
+int stack[STACKSIZE];
 
-struct stack
+int isEmpty()
 {
-    int top;
-    int items[STACKSIZE];
-};
-
-struct stack s;
-
-int isEmpty(struct stack *pStack)
-{
-    return pStack->top == -1 ? true : false;
+    return top == -1 ? true : false;
 }
 
-int pop(struct stack *pStack)
+void push(int item)
 {
-    if (isEmpty(pStack))
-    {
-        printf("Stack empty");
-        exit(1);
-    }
-    else
-    {
-        printf("Poped from the stack\n");
-        return (pStack->items[pStack->top--]);
-    }
-}
-
-void push(struct stack *pStack, int item)
-{
-    if (pStack->top == STACKSIZE - 1)
+    if (top == STACKSIZE - 1)
     {
         printf("Stack overflow");
-        exit(1);
+        return;
     }
     else
     {
-        pStack->items[++(pStack->top)] = item;
+        stack[top++] = item;
+
         printf("Pushed to stack\n");
     }
+}
 
-    return;
+void pop()
+{
+    (top == -1) ? printf("Stack not have elements") : top--;
+}
+
+void print()
+{
+    printf("Stack: ");
+    for (int i = 0; i <= top; i++)
+
+        printf("%d ", stack[i]);
+    printf("\n");
 }
 
 int main()
@@ -78,22 +68,23 @@ int main()
     printf("\n");
     printf("Push function: \n");
 
-    push(&s, 1);
-    push(&s, 2);
-    push(&s, 3);
-    push(&s, 4);
+    push(12);
+    push(36);
+    push(99);
 
-    printf("%x <---- stack size ", s.top);
     printf("\n");
+    print();
 
     printf("\n");
 
     printf("===^^===\n");
     printf("Pop function: \n");
 
-    pop(&s);
+    printf("\n");
+    pop();
+    pop();
 
-    printf("%x <---- stack size", s.top);
+    print();
 
     return 0;
 }
